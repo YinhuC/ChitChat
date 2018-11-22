@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ChitChat.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace ChitChat.Controllers
 {
@@ -14,10 +15,12 @@ namespace ChitChat.Controllers
     public class PostController : ControllerBase
     {
         private readonly ChitChatContext _context;
+        private IConfiguration _configuration;
 
-        public PostController(ChitChatContext context)
+        public PostController(ChitChatContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         // GET: api/Post

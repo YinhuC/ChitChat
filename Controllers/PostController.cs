@@ -130,33 +130,65 @@ namespace ChitChat.Controllers
         [HttpGet]
         public async Task<List<string>> GetMsgs()
         {
-            var memes = (from m in _context.PostItem
+            var posts = (from m in _context.PostItem
                          select m.Msg).Distinct();
 
-            var returned = await memes.ToListAsync();
+            var returned = await posts.ToListAsync();
 
             return returned;
         }
 
 
-        // GET: api/Meme/Tags
-
+        // GET: api/Meme/msg
         [HttpGet]
         [Route("msg")]
         public async Task<List<PostItem>> GetMsgItems([FromQuery] string msgs)
         {
-            var memes = from m in _context.PostItem
+            var posts = from m in _context.PostItem
                         select m; //get all the posts
 
 
             if (!String.IsNullOrEmpty(msgs)) //make sure user gave a word to search
             {
-                memes = memes.Where(s => s.Msg.ToLower().Contains(msgs.ToLower())); // find the entries with the word
+                posts = posts.Where(s => s.Msg.ToLower().Contains(msgs.ToLower())); // find the entries with the word
             }
 
-            var returned = await memes.ToListAsync(); //return the postss
+            var returned = await posts.ToListAsync(); //return the postss
 
             return returned;
         }
+
+        // GET: api/Meme/userID
+        [Route("userids")]
+        [HttpGet]
+        public async Task<List<string>> GetMsgsUserID()
+        {
+            var posts = (from m in _context.PostItem
+                         select m.UserID).Distinct();
+
+            var returned = await posts.ToListAsync();
+
+            return returned;
+        }
+
+ 
+        // GET: api/Meme/Tags
+        [HttpGet]
+        [Route("userid")]
+        public async Task<List<PostItem>> GetMsgsUserID([FromQuery] string users)
+        {
+            var posts = from m in _context.PostItem
+                        select m; 
+
+            if (!String.IsNullOrEmpty(users))
+            {
+                posts = posts.Where(s => s.UserID.ToLower().Equals(users.ToLower())); 
+            }
+
+            var returned = await posts.ToListAsync();
+
+            return returned;
+        }
+
     }
 }

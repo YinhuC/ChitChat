@@ -23,7 +23,7 @@ namespace ChitChat.Models
                 context.PostItem.AddRange(
                     new PostItem
                     {
-                        UserID = 1,
+                        UserID = "1",
                         Upvotes = 5,
                         Downvotes = 1,
                         Title = "Lorem Ipsum",

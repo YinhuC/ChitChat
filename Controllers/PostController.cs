@@ -121,5 +121,39 @@ namespace ChitChat.Controllers
         {
             return _context.PostItem.Any(e => e.Id == id);
         }
+
+        // GET: api/Meme/Title
+        [Route("msgs")]
+        [HttpGet]
+        public async Task<List<string>> GetMsgs()
+        {
+            var memes = (from m in _context.PostItem
+                         select m.Msg).Distinct();
+
+            var returned = await memes.ToListAsync();
+
+            return returned;
+        }
+
+
+        // GET: api/Meme/Tags
+
+        [HttpGet]
+        [Route("msg")]
+        public async Task<List<PostItem>> GetMsgItems([FromQuery] string msgs)
+        {
+            var memes = from m in _context.PostItem
+                        select m; //get all the posts
+
+
+            if (!String.IsNullOrEmpty(msgs)) //make sure user gave a word to search
+            {
+                memes = memes.Where(s => s.Msg.ToLower().Contains(msgs.ToLower())); // find the entries with the word
+            }
+
+            var returned = await memes.ToListAsync(); //return the postss
+
+            return returned;
+        }
     }
 }
